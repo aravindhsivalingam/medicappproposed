@@ -1,0 +1,467 @@
+$accent-color: #355cc9;
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: "Montserrat", sans-serif;
+}
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: left;
+}
+
+.my-card {
+  width: 360px;
+  height: 200px;
+  margin: 1em;
+  perspective: 1500px;
+  .content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.75, 0, 0.85, 1);
+  }
+}
+
+.more {
+  display: none;
+  &:checked ~ .content {
+    transform: rotateY(180deg);
+  }
+}
+
+.front,
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  border-radius: 6px;
+  border: 1px solid black;
+  .inner {
+    height: 100%;
+    padding: 6px;
+    margin-left: -3%;
+    transform: translateZ(50px) scale(0.94);
+  }
+}
+
+.front {
+  background-color: #fff;
+  background-size: cover;
+  background-position: center center;
+  // border: 10px solid;
+  // border-image: linear-gradient(45deg, rgb(0, 143, 104), rgb(250, 224, 66)) 1;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 6px;
+    backface-visibility: hidden;
+    background: #fff;
+  }
+  .inner {
+    color: #000;
+    justify-items: left;
+    margin-left: 12px;
+  }
+
+  h2 {
+    margin-bottom: 0.3em;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #fff;
+    font-weight: 500;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.back {
+  transform: rotateY(180deg);
+  background-color: #fff;
+  border: 2px solid rgb(240, 240, 240);
+  .inner {
+    justify-items: center;
+  }
+
+  .description {
+    font-size: 0.86em;
+    border-radius: 5px;
+    font-weight: 600;
+    line-height: 1.4em;
+    overflow: auto;
+    color: $accent-color;
+    padding-right: 10px;
+  }
+
+  .location,
+  .price {
+    font-weight: 600;
+    color: $accent-color;
+    font-size: 0.86em;
+  }
+
+  .button {
+    font-size: 10px;
+  }
+}
+
+.button {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline;
+  padding: 7px 13px;
+  height: 3em;
+  line-height: 2.9em;
+  min-width: 3em;
+  background-color: transparent;
+  border: solid 2px #fff;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+  left: 50%;
+  backface-visibility: hidden;
+  transition: 0.3s ease-in-out;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    background-color: #fff;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    text-shadow: none;
+    color: $accent-color;
+  }
+
+  &.return {
+    line-height: 3em;
+    color: $accent-color;
+    border-color: $accent-color;
+    text-shadow: none;
+    &:hover {
+      background-color: $accent-color;
+      color: #fff;
+      box-shadow: none;
+    }
+  }
+}
+.my-btn {
+  font-size: 11px;
+  margin-left: 7px;
+  padding-top: 0px;
+}
+.name-wrapper {
+  cursor: pointer;
+  &:before {
+    content: "Prescription Name";
+    display: none;
+    text-align: center;
+  }
+  background-color: #000;
+}
+.user-wrapper {
+  cursor: pointer;
+  &:before {
+    content: "Created User";
+    display: none;
+    text-align: center;
+  }
+  background-color: #000;
+}
+.patient-name-wrapper {
+  cursor: pointer;
+  &:before {
+    content: "Patient Name";
+    display: none;
+    text-align: center;
+  }
+  background-color: #000;
+}
+.patient-age-wrapper {
+  cursor: pointer;
+  &:before {
+    content: "Patient Age";
+    display: none;
+    text-align: center;
+  }
+  background-color: #000;
+}
+.prescription-btn {
+  padding: 6px !important;
+  margin: 0px;
+  border-radius: 10px;
+}
+.prescription-btn-row {
+  margin-top: -3px;
+  margin-left: -18px;
+}
+.card-action-row {
+  margin-top: -5px;
+}
+#pdfViewerModal .modal-body {
+  padding: 15px 20px 0px 15px;
+}
+#pdfViewerModal .modal-footer {
+  padding: 1rem;
+}
+#pdfViewerModal .modal-content {
+  width: 800px;
+  margin-left: -140px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: lighten($accent-color, 20%);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $accent-color;
+}
+.add-new-btn {
+  font-size: 50px;
+  color: #fff !important;
+  transform: translate(300%, 163%);
+}
+.add-new-btn:hover {
+  color: rgb(187, 178, 178) !important;
+}
+.custom-card {
+  cursor: pointer;
+  border-radius: 6px;
+  width: 360px;
+  height: 200px;
+  margin: 1em;
+  background: #000;
+}
+.new-card {
+  border: 1px solid rgba(5, 59, 255, 0.48) !important;
+  padding: 10px !important;
+}
+.new-card .form-control {
+  height: 30px;
+  font-size: 14px;
+}
+.new-card td {
+  padding: 15px;
+}
+.medicine-btn {
+  font-size: 20px;
+  cursor: pointer;
+}
+.modal-title {
+  padding-left: 5px;
+}
+.new-card .form-control {
+  padding: 4px 4px 4px 9px;
+}
+$primary: #f5365c;
+$lightGrey: #2dce89;
+
+.switch {
+  height: 20px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  input {
+    display: none;
+    & + span {
+      padding-left: 50px;
+      min-height: 24px;
+      line-height: 24px;
+      display: block;
+      color: $lightGrey;
+      position: relative;
+      vertical-align: middle;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+      &:before,
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: 12px;
+      }
+      &:before {
+        top: 0;
+        left: 0;
+        width: 42px;
+        height: 20px;
+        background: #e4ecfa;
+        transition: all 0.3s ease;
+      }
+      &:after {
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        top: 3px;
+        left: 3px;
+        box-shadow: 0 1px 3px rgba(#121621, 0.1);
+        transition: all 0.45s ease;
+      }
+      em {
+        width: 7px;
+        height: 6px;
+        background: $lightGrey;
+        position: absolute;
+        left: 8px;
+        bottom: 7px;
+        border-radius: 2px;
+        display: block;
+        z-index: 1;
+        transition: all 0.45s ease;
+        &:before {
+          content: "";
+          width: 2px;
+          height: 2px;
+          border-radius: 1px;
+          background: #fff;
+          position: absolute;
+          display: block;
+          left: 50%;
+          top: 50%;
+          margin: -1px 0 0 -1px;
+        }
+        &:after {
+          content: "";
+          display: block;
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border: 1px solid $lightGrey;
+          border-bottom: 0;
+          width: 6px;
+          height: 4px;
+          left: 1px;
+          bottom: 6px;
+          position: absolute;
+          z-index: 1;
+          transform-origin: 0 100%;
+          transition: all 0.45s ease;
+          transform: rotate(-35deg) translate(0, 1px);
+        }
+      }
+      strong {
+        font-weight: normal;
+        position: relative;
+        display: block;
+        top: 1px;
+        &:before,
+        &:after {
+          font-size: 14px;
+          font-weight: 500;
+          display: block;
+          line-height: 16px;
+        }
+        &:before {
+          content: "Public";
+          transition: all 0.3s ease 0.2s;
+        }
+        &:after {
+          content: "Private";
+          opacity: 0;
+          visibility: hidden;
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: $primary;
+          transition: all 0.3s ease;
+          transform: translate(2px, 0);
+        }
+      }
+    }
+    &:checked {
+      & + span {
+        &:before {
+          background: rgba($primary, 0.35);
+        }
+        &:after {
+          background: #fff;
+          transform: translate(18px, 0);
+        }
+        em {
+          transform: translate(18px, 0);
+          background: $primary;
+          &:after {
+            border-color: $primary;
+            transform: rotate(0deg) translate(0, 0);
+          }
+        }
+        strong {
+          &:before {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            transform: translate(-2px, 0);
+          }
+          &:after {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(0, 0);
+            transition: all 0.3s ease 0.2s;
+          }
+        }
+      }
+    }
+  }
+}
+.protect-img {
+  cursor: pointer;
+}
+.data-card * {
+  padding: 13px 0px 8px 20px;
+  text-align: left;
+}
+.img-wrapper {
+  height: 100px;
+  position: absolute;
+  background: transparent;
+  margin-left: 120px;
+  margin-top: 7px;
+}
+.protect-img {
+  margin-top: -25px;
+  margin-left: 130px;
+  height: 60px;
+}
+.right-text {
+  text-align: right !important;
+  padding-right: 45px !important;
+}
+
+.custom-file-label {
+  padding: 1px 0px 1px 10px;
+  height: 30px;
+}
+.custom-file-label::after {
+  height: 30px;
+}
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: "Browse";
+  background-color: #5e72e4;
+  color: #fff;
+  font-size: 13px;
+  right: -2px;
+  padding: 6px;
+  top: -1px;
+}
+.card-details {
+  padding: 3px !important;
+}
