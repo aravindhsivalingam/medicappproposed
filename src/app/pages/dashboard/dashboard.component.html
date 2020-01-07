@@ -3,54 +3,16 @@
     <div class="header-body">
       <!-- Card stats -->
       <div class="wrapper">
-        <!-- <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                  <span class="h2 font-weight-bold mb-0">350,897</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-chart-bar"></i>
-                  </div>
-                </div>
-              </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
-            </div>
-          </div>
-        </div> -->
         <!-- Start -->
         <div class="custom-card" (click)="openNewPrescription()">
           <i class="fas fa-plus-circle add-new-btn"></i>
         </div>
-        <div class="my-card" *ngFor="let item of prescriptionList; let i = index">
+        <div class="my-card"
+          *ngFor="let item of prescriptionList  | filter : {prescriptionName:searchText,patientName:searchText, createdUser : searchText, age:searchText}; let i=index">
           <input type="checkbox" id="card-{{i}}" class="more" aria-hidden="true">
           <div class="content">
             <div class="front" style="background:#fff">
               <div class="inner">
-                <!-- <label class="name-wrapper badge-wrapper"><span class="badge badge-pill badge-secondary">{{item.prescriptionName.length > 11 ?
-                      (item.prescriptionName | slice:0:12)+'...' :(item.prescriptionName)}}</span></label>
-                <label class="user-wrapper badge-wrapper"><span
-                    class="badge badge-pill badge-secondary">{{item.createdUser}}</span></label>
-                <label class="patient-name-wrapper badge-wrapper"><span
-                    class="badge badge-pill badge-secondary">{{item.patientName}}</span></label>
-                <label class="patient-age-wrapper badge-wrapper"><span
-                    class="badge badge-pill badge-secondary">{{item.age}}</span></label>
-                <label class="badge badge-pill badge-secondary" (click)="openPdf()">Report.pdf</label>
-                <label for="card-{{i}}" *ngIf="!item.isPrivate" class="button my-btn" aria-hidden="true">
-                  <span>View Medicine</span>
-                </label>
-                <label class="button my-btn" aria-hidden="true" (click)="toggleEditPrescriptionModal(item)"
-                  [hidden]="localData.type=='doctor'">
-                  <i class="fas fa-pencil-alt"></i>
-                </label>
-                <label class="protect-img" (click)="toggleAccessModal()"><img src="assets/img/protect.png"
-                    *ngIf="item.isPrivate" style="margin-top: -44px;height: 50px;margin-left: 41px;"></label> -->
                 <div class="row data-card">
                   <div class="col-xs-12 col-sm-6">
                     <span class="card-details" data-toggle="tooltip" data-placement="top" title="Prescription Name">{{item.prescriptionName.length > 16 ?
@@ -87,7 +49,7 @@
                     </label>
                     <label class="btn btn-info btn-sm" aria-hidden="true" [hidden]="localData.type=='doctor'"
                       (click)="addToCart(item)" style="padding: 5px;" data-toggle="tooltip" data-placement="top"
-                      title="Add to Cart">
+                      title="Add to Cart" [hidden]="getPresence(item)">
                       <i class="fas fa-cart-plus" style="padding: 5px;font-size: 15px;"></i>
                     </label>
                   </div>
@@ -157,7 +119,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newPrescriptionModal">Add New Prescription</h5>
+        <h3 class="modal-title" id="newPrescriptionModal">Add New Prescription</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -201,7 +163,7 @@
           </div>
           <div class="row mt-3">
             <div class="col">
-              <h4 class="mb-2 modal-title">Address</h4>
+              <h4 class="mb-2 modal-title">Delivery Address</h4>
             </div>
           </div>
           <div class="form-row">
@@ -278,8 +240,9 @@
             <div class="col-7">
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" (change)="onFileChange($event)">
-                <label class="custom-file-label"
-                  for="customFile">{{prescription.report.fileName.length==0?"Choose file":prescription.report.fileName}}</label>
+                <label class="custom-file-label" for="customFile">{{prescription.report.fileName.length==0?"Choose file":prescription.report.fileName.length > 16 ?
+                  (prescription.report.fileName | slice:0:16)+'...' :(prescription.report.fileName)
+                }}</label>
               </div>
             </div>
           </div>
@@ -298,7 +261,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editPrescriptionModal">Edit Prescription</h5>
+        <h3 class="modal-title" id="editPrescriptionModal">Edit Prescription</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -343,7 +306,7 @@
           </div>
           <div class="row mt-3">
             <div class="col">
-              <h4 class="mb-2 modal-title">Address</h4>
+              <h4 class="mb-2 modal-title">Delivery Address</h4>
             </div>
           </div>
           <div class="form-row">

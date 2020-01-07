@@ -13,6 +13,8 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ToastrModule } from 'ngx-toastr';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { FilterPipe } from 'src/app/services/filter-pipe';
+
 
 @NgModule({
   imports: [
@@ -22,14 +24,16 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-    NgxExtendedPdfViewerModule
+    NgxExtendedPdfViewerModule,
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
     TablesComponent,
-    IconsComponent
-  ]
+    IconsComponent,
+    FilterPipe
+  ],
+  exports: [FilterPipe]
 })
 
 export class AdminLayoutModule { }

@@ -81,7 +81,12 @@
         <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
           <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
             <i class="ni {{menuItem.icon}}"></i>
-            {{menuItem.title}}
+            {{menuItem.title}} &nbsp;
+            <span *ngIf="menuItem.title==='Cart'">
+              <span class="badge badge-primary" id="cartCount">{{prescriptionList.length}}</span>
+              <button class="btn btn-primary btn-sm ml-3" *ngIf="prescriptionList.length!=0">Checkout <i
+                  class="fas fa-arrow-right"></i></button>
+            </span>
           </a>
         </li>
       </ul>

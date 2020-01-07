@@ -10,7 +10,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
           </div>
-          <input class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false">
+          <input class="form-control" placeholder="Search" name="searchText" type="text" (focus)="focus = true"
+            [(ngModel)]="searchText" (input)="changeSearch()" (blur)="focus = false">
         </div>
       </div>
     </form>
@@ -25,7 +26,7 @@
         </button>
         <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu
           style="padding: 5px;left: -461px;width: 500px">
-          <span *ngIf="notificationList.length==0">
+          <span *ngIf="notificationList && notificationList.length==0">
             <div class="text-center alert alert-info alert-dismissible fade show" role="alert">
               <span class="alert-inner--text" style="word-spacing:5px;"><strong>Hey !,</strong> You're done with your
                 notifications</span>

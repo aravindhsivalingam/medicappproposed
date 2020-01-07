@@ -3,6 +3,8 @@ import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
 import { AppService } from '../../services/app-service';
+import { HelperService } from 'src/app/services/helper-service';
+
 declare var $: any;
 
 @Component({
@@ -16,7 +18,9 @@ export class NavbarComponent implements OnInit {
   public location: Location;
   public notificationList: any = [];
   public localData: any;
-  constructor(location: Location, private element: ElementRef, private router: Router, private service: AppService) {
+  public searchText: string;
+  constructor(location: Location, private element: ElementRef, private router: Router, private service: AppService,
+    private helperService: HelperService) {
     this.location = location;
   }
 
@@ -61,14 +65,17 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
   approveRequest(id, i) {
-    // this.service.changePrivateState(id).subscribe(data => {
-    this.service.deleteNotification(i).subscribe(data => {
-      if (data.toString().includes('success')) {
-        this.notificationList.splice(i, 1);
-      }
+    this.service.changePrivateState(id).subscribe(data => {
+      this.service.deleteNotification(id).subscribe(deleteResponse => {
+        if (deleteResponse.toString().includes('success')) {
+          this.notificationList.splice(i, 1);
+        }
+      });
+      console.log(data);
     });
-    // console.log(data);
-    // });
+  }
+  changeSearch() {
+    this.helperService.searchText(this.searchText);
   }
 
 }
