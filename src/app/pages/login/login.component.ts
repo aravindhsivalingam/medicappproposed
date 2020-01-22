@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl('./dashboard');
           }, 2000);
         } else {
+          this.loginPayload.imageUrl = '';
           this.notyfService.error(`${data} ! !`);
         }
       });

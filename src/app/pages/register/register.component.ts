@@ -18,7 +18,8 @@ export class RegisterComponent implements OnInit {
     name: '',
     emailId: '',
     password: '',
-    imageUrl: ''
+    imageUrl: '',
+    type: 'client'
   };
   public passwordStrength = '';
   ngOnInit() {

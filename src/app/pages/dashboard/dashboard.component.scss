@@ -422,24 +422,29 @@ $lightGrey: #2dce89;
     }
   }
 }
-.protect-img {
-  cursor: pointer;
-}
 .data-card * {
   padding: 13px 0px 8px 20px;
   text-align: left;
 }
-.img-wrapper {
-  height: 100px;
-  position: absolute;
-  background: transparent;
-  margin-left: 120px;
-  margin-top: 7px;
+.doctor-data-card {
+  padding: 0px 0px 19px 0px;
+  text-align: left;
 }
 .protect-img {
-  margin-top: -25px;
-  margin-left: 130px;
+  margin-top: -20px;
+  margin-left: 65px;
   height: 60px;
+  position: absolute;
+  padding: 13px 0px 8px 0px !important;
+  cursor: pointer;
+}
+.doctor-protect-img {
+  margin-top: -50px;
+  margin-left: 88%;
+  height: 78px;
+  position: absolute;
+  padding: 13px 0px 8px 0px !important;
+  cursor: pointer;
 }
 .right-text {
   text-align: right !important;

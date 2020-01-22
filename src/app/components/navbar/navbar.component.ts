@@ -64,9 +64,14 @@ export class NavbarComponent implements OnInit {
     localStorage.setItem('loggedInUser', null);
     this.router.navigateByUrl('/login');
   }
-  approveRequest(id, i) {
-    this.service.changePrivateState(id).subscribe(data => {
-      this.service.deleteNotification(id).subscribe(deleteResponse => {
+  approveRequest(notification, i) {
+    const payload = {
+      id: notification.id,
+      loggedInUser: notification.loggedInUser,
+      prescriptionName: notification.prescriptionName
+    };
+    this.service.changePrivateState(payload).subscribe(data => {
+      this.service.deleteNotification(notification.id).subscribe(deleteResponse => {
         if (deleteResponse.toString().includes('success')) {
           this.notificationList.splice(i, 1);
         }

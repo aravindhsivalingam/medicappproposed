@@ -7,109 +7,217 @@
         <div class="custom-card" (click)="openNewPrescription()">
           <i class="fas fa-plus-circle add-new-btn"></i>
         </div>
-        <div class="my-card"
-          *ngFor="let item of prescriptionList  | filter : {prescriptionName:searchText,patientName:searchText, createdUser : searchText, age:searchText}; let i=index">
-          <input type="checkbox" id="card-{{i}}" class="more" aria-hidden="true">
-          <div class="content">
-            <div class="front" style="background:#fff">
-              <div class="inner">
-                <div class="row data-card">
-                  <div class="col-xs-12 col-sm-6">
-                    <span class="card-details" data-toggle="tooltip" data-placement="top" title="Prescription Name">{{item.prescriptionName.length > 16 ?
+        <ng-container *ngIf="localData.type=='client'">
+          <div class="my-card"
+            *ngFor="let item of prescriptionList  | filter : {prescriptionName:searchText,patientName:searchText, createdUser : searchText, age:searchText}; let i=index">
+            <input type="checkbox" id="card-{{i}}" class="more" aria-hidden="true">
+            <div class="content">
+              <div class="front" style="background:#fff">
+                <div class="inner">
+                  <div class="row data-card">
+                    <div class="col-xs-12 col-sm-6">
+                      <span class="card-details" data-toggle="tooltip" data-placement="top" title="Prescription Name">{{item.prescriptionName.length > 16 ?
                       (item.prescriptionName | slice:0:16)+'...' :(item.prescriptionName)}}</span>
+                    </div>
+                    <div class="col-sm-6 right-text"><span class="card-details" data-toggle="tooltip"
+                        data-placement="top" title="Created User">{{item.createdUser}}</span></div>
                   </div>
-                  <div class="col-sm-6 right-text"><span class="card-details" data-toggle="tooltip" data-placement="top"
-                      title="Created User">{{item.createdUser}}</span></div>
-                </div>
-                <div class="row data-card">
-                  <div class="col-sm-6"><span class="card-details" data-toggle="tooltip" data-placement="right"
-                      title="Patient Name">{{item.patientName}}</span></div>
-                  <div class="col-sm-6 right-text"><span class="card-details" data-toggle="tooltip"
-                      data-placement="left" title="Patient Age">{{item.age}}</span></div>
-                </div>
-                <div class="row data-card prescription-btn-row">
-                  <div class="col-sm-6" (click)="openPdf(item)" style="cursor: pointer"><span
-                      class="btn btn-secondary btn-sm prescription-btn">Prescription.pdf</span></div>
-                  <div class="col-sm-6 img-wrapper">
-                    <img src="assets/img/protectShield.png" *ngIf="item.isPrivate" class="protect-img"
-                      (click)="toggleAccessModal(item)">
+                  <div class="row data-card">
+                    <div class="col-sm-6"><span class="card-details" data-toggle="tooltip" data-placement="right"
+                        title="Patient Name">{{item.patientName}}</span></div>
+                    <div class="col-sm-6 right-text"><span class="card-details" data-toggle="tooltip"
+                        data-placement="left" title="Patient Age">{{item.age}}</span></div>
                   </div>
-                </div>
-                <div class="row data-card card-action-row">
-                  <div class="col-sm-6">
-                    <label class="btn btn-primary btn-sm" aria-hidden="true" data-toggle="tooltip" data-placement="top"
-                      title="Edit this prescription" (click)="toggleEditPrescriptionModal(item)"
-                      [hidden]="localData.type=='doctor'" style="padding: 5px;">
-                      <i class="fas fa-pencil-alt" style="padding: 5px;font-size: 15px;"></i>
-                    </label>
-                    <label class="btn btn-danger btn-sm" aria-hidden="true" [hidden]="localData.type=='doctor'"
-                      (click)="toggleDeleteModal(item)" style="padding: 5px;" data-toggle="tooltip" data-placement="top"
-                      title="Delete this prescription">
-                      <i class="fas fa-trash" style="padding: 5px;font-size: 15px;"></i>
-                    </label>
-                    <label class="btn btn-info btn-sm" aria-hidden="true" [hidden]="localData.type=='doctor'"
-                      (click)="addToCart(item)" style="padding: 5px;" data-toggle="tooltip" data-placement="top"
-                      title="Add to Cart" [hidden]="getPresence(item)">
-                      <i class="fas fa-cart-plus" style="padding: 5px;font-size: 15px;"></i>
-                    </label>
+                  <div class="row data-card prescription-btn-row">
+                    <div class="col-sm-6" (click)="openPdf(item)" style="cursor: pointer"
+                      *ngIf="localData.type=='client' || !item.isPrivate"><span
+                        class="btn btn-secondary btn-sm prescription-btn">Prescription.pdf</span></div>
+                    <div class="col-sm-6 img-wrapper">
+                      <span><img src="assets/img/protectShield.png" *ngIf="item.isPrivate" class="protect-img"
+                          (click)="toggleAccessModal(item)" data-toggle="tooltip" data-placement="left"
+                          title="Private Prescription"></span>
+                    </div>
                   </div>
-                  <div class="col-sm-6">
-                    <label for="card-{{i}}" *ngIf="localData.type=='client' || !item.isPrivate"
-                      class="btn btn-primary btn-sm" aria-hidden="true" style="padding: 8px;">
-                      View Medicine</label>
+                  <div class="row data-card card-action-row">
+                    <div class="col-sm-6">
+                      <label class="btn btn-primary btn-sm" aria-hidden="true" data-toggle="tooltip"
+                        data-placement="top" title="Edit this prescription" (click)="toggleEditPrescriptionModal(item)"
+                        [hidden]="localData.type=='doctor'" style="padding: 5px;">
+                        <i class="fas fa-pencil-alt" style="padding: 5px;font-size: 15px;"></i>
+                      </label>
+                      <label class="btn btn-danger btn-sm" aria-hidden="true" [hidden]="localData.type=='doctor'"
+                        (click)="toggleDeleteModal(item)" style="padding: 5px;" data-toggle="tooltip"
+                        data-placement="top" title="Delete this prescription">
+                        <i class="fas fa-trash" style="padding: 5px;font-size: 15px;"></i>
+                      </label>
+                      <label class="btn btn-info btn-sm" aria-hidden="true" [hidden]="localData.type=='doctor'"
+                        (click)="addToCart(item)" style="padding: 5px;" data-toggle="tooltip" data-placement="top"
+                        title="Add to Cart" [hidden]="getPresence(item)">
+                        <i class="fas fa-cart-plus" style="padding: 5px;font-size: 15px;"></i>
+                      </label>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="card-{{i}}" *ngIf="localData.type=='client' || !item.isPrivate"
+                        class="btn btn-primary btn-sm" aria-hidden="true" style="padding: 8px;">
+                        View Medicine</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="back" style="overflow-y: scroll;">
-              <div class="inner">
-                <label>
-                  <div>
-                    <label class="location" style="font-size: 15px;
+              <div class="back" style="overflow-y: scroll;">
+                <div class="inner">
+                  <label>
+                    <div>
+                      <label class="location" style="font-size: 15px;
                     margin-left: 10px;">Medicine List</label>
-                    <label
-                      style="float:right;font-size: 13px;display: inline-flex;line-height: 2.4;margin-bottom: 0px;">₹ /
-                      month<label for="card-{{i}}" class="button return" aria-hidden="true"
-                        style="margin-left:12px;padding:0px 15px">
-                        <i class="fas fa-arrow-right"></i>
-                      </label></label>
-                    <!-- PrescriptionTable -->
-                    <div class="table-responsive" style="width: 340px;
+                      <label
+                        style="float:right;font-size: 13px;display: inline-flex;line-height: 2.4;margin-bottom: 0px;">₹
+                        /
+                        month<label for="card-{{i}}" class="button return" aria-hidden="true"
+                          style="margin-left:12px;padding:0px 15px">
+                          <i class="fas fa-arrow-right"></i>
+                        </label></label>
+                      <!-- PrescriptionTable -->
+                      <div class="table-responsive" style="width: 340px;
                     margin-left: 2%;">
-                      <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                          <tr style="font-size: 12px;">
-                            <th scope="col">S.No</th>
-                            <th scope="col">Medicine</th>
-                            <th scope="col">Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let medicine of item.medicineList">
-                            <th scope="row">
-                              {{medicine.id}}
-                            </th>
-                            <td>
-                              {{medicine.name}}
-                            </td>
-                            <td>
-                              <span class="mr-2">{{medicine.quantity}} mg</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                        <table class="table align-items-center table-flush">
+                          <thead class="thead-light">
+                            <tr style="font-size: 12px;">
+                              <th scope="col">S.No</th>
+                              <th scope="col">Medicine</th>
+                              <th scope="col">Quantity</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let medicine of item.medicineList">
+                              <th scope="row">
+                                {{medicine.id}}
+                              </th>
+                              <td>
+                                {{medicine.name}}
+                              </td>
+                              <td>
+                                <span class="mr-2">{{medicine.quantity}} mg</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- PrescriptionTable -->
                     </div>
-                    <!-- PrescriptionTable -->
-                  </div>
-                </label>
-                <!-- <label for="card-{{i}}" class="button return" aria-hidden="true">
-                  <i class="fas fa-arrow-left"></i>
-                </label> -->
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Over -->
+        </ng-container>
+        <!-- Client Container Over -->
+        <!-- Doctor Container -->
+        <ng-container *ngIf="localData.type=='doctor'">
+          <div class="my-card"
+            *ngFor="let item of prescriptionList  | filter : {prescriptionName:searchText,patientName:searchText, createdUser : searchText, age:searchText}; let i=index">
+            <input type="checkbox" id="card-{{i}}" class="more" aria-hidden="true">
+            <div class="content">
+              <div class="front" style="background:#fff">
+                <div class="inner">
+                  <div class="row doctor-data-card">
+                    <img src="assets/img/protectShield.png" *ngIf="item.isPrivate" class="doctor-protect-img"
+                      (click)="toggleAccessModal(item)" data-toggle="tooltip" data-placement="left"
+                      title="Private Prescription">
+                  </div>
+                  <div class="row doctor-data-card">
+                    <div class="col-xs-12 col-sm-6">
+                      <span class="card-details" data-toggle="tooltip" data-placement="top" title="Prescription Name">{{item.prescriptionName.length > 16 ?
+                      (item.prescriptionName | slice:0:16)+'...' :(item.prescriptionName)}}</span>
+                    </div>
+                    <div class="col-sm-6 right-text"><span class="card-details" data-toggle="tooltip"
+                        data-placement="top" title="Created User">{{item.createdUser}}</span></div>
+                  </div>
+                  <div class="row doctor-data-card">
+                    <div class="col-sm-6"><span class="card-details" data-toggle="tooltip" data-placement="right"
+                        title="Patient Name">{{item.patientName}}</span></div>
+                    <div class="col-sm-6 right-text"><span class="card-details" data-toggle="tooltip"
+                        data-placement="left" title="Patient Age">{{item.age}}</span></div>
+                  </div>
+                  <div class="row doctor-data-card prescription-btn-row">
+                    <div class="col-sm-6" (click)="openPdf(item)" style="cursor: pointer"
+                      *ngIf="item.email===localData.email || !item.isPrivate"><span
+                        class="btn btn-secondary btn-sm prescription-btn">Prescription.pdf</span></div>
+                  </div>
+                  <div class="row doctor-data-card card-action-row">
+                    <div class="col-sm-6">
+                      <label class="btn btn-primary btn-sm" aria-hidden="true" data-toggle="tooltip"
+                        data-placement="top" title="Edit this prescription" (click)="toggleEditPrescriptionModal(item)"
+                        *ngIf="item.email===localData.email || !item.isPrivate" style="padding: 5px;">
+                        <i class="fas fa-pencil-alt" style="padding: 5px;font-size: 15px;"></i>
+                      </label>
+                      <label class="btn btn-danger btn-sm" aria-hidden="true" *ngIf="item.email===localData.email"
+                        (click)="toggleDeleteModal(item)" style="padding: 5px;" data-toggle="tooltip"
+                        data-placement="top" title="Delete this prescription">
+                        <i class="fas fa-trash" style="padding: 5px;font-size: 15px;"></i>
+                      </label>
+                      <label class="btn btn-info btn-sm" aria-hidden="true" (click)="addToCart(item)"
+                        style="padding: 5px;" data-toggle="tooltip" data-placement="top" title="Add to Cart"
+                        [hidden]="getPresence(item)">
+                        <i class="fas fa-cart-plus" style="padding: 5px;font-size: 15px;"></i>
+                      </label>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="card-{{i}}" *ngIf="item.email===localData.email || !item.isPrivate"
+                        class="btn btn-primary btn-sm" aria-hidden="true" style="padding: 8px;">
+                        View Medicine</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="back" style="overflow-y: scroll;">
+                <div class="inner">
+                  <label>
+                    <div>
+                      <label class="location" style="font-size: 15px;
+                    margin-left: 10px;">Medicine List</label>
+                      <label
+                        style="float:right;font-size: 13px;display: inline-flex;line-height: 2.4;margin-bottom: 0px;">₹
+                        /
+                        month<label for="card-{{i}}" class="button return" aria-hidden="true"
+                          style="margin-left:12px;padding:0px 15px">
+                          <i class="fas fa-arrow-right"></i>
+                        </label></label>
+                      <!-- PrescriptionTable -->
+                      <div class="table-responsive" style="width: 340px;
+                    margin-left: 2%;">
+                        <table class="table align-items-center table-flush">
+                          <thead class="thead-light">
+                            <tr style="font-size: 12px;">
+                              <th scope="col">S.No</th>
+                              <th scope="col">Medicine</th>
+                              <th scope="col">Quantity</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let medicine of item.medicineList">
+                              <th scope="row">
+                                {{medicine.id}}
+                              </th>
+                              <td>
+                                {{medicine.name}}
+                              </td>
+                              <td>
+                                <span class="mr-2">{{medicine.quantity}} mg</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- PrescriptionTable -->
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- Doctor Container Over -->
       </div>
     </div>
   </div>
@@ -134,7 +242,8 @@
           <div class="form-row">
             <div class="col-6">
               <input type="text" class="form-control" placeholder="Prescription Name" name="Prescription Name"
-                [(ngModel)]="prescription.prescriptionName">
+                [(ngModel)]="prescription.prescriptionName"
+                [ngClass]="{'is-invalid':prescription.prescriptionName==='' && isValid}">
             </div>
             <div class="col">
               <label class="switch" style="margin-top: 5px;margin-left: 20px;">
@@ -154,11 +263,13 @@
           <div class="form-row">
             <div class="col-9">
               <input type="text" class="form-control" placeholder="Patient Name" name="Patient Name"
-                [(ngModel)]="prescription.patientName">
+                [(ngModel)]="prescription.patientName"
+                [ngClass]="{'is-invalid':prescription.patientName==='' && isValid}">
             </div>
             <div class="col">
               <input type="text" class="form-control" placeholder="Age" name="Patient Age"
-                [(ngModel)]="prescription.age" (keypress)="numericOnly($event)">
+                [(ngModel)]="prescription.age" (keypress)="numericOnly($event)"
+                [ngClass]="{'is-invalid':prescription.age==='' && isValid}">
             </div>
           </div>
           <div class="row mt-3">
@@ -169,7 +280,8 @@
           <div class="form-row">
             <div class="col-4">
               <input type="text" class="form-control" placeholder="Address" name="streetName"
-                [(ngModel)]="prescription.address.street">
+                [(ngModel)]="prescription.address.street"
+                [ngClass]="{'is-invalid':prescription.address.street==='' && isValid}">
             </div>
             <div class="col">
               <select class="form-control" name="stateName" [(ngModel)]="prescription.address.state">
@@ -178,7 +290,8 @@
             </div>
             <div class="col">
               <input type="text" class="form-control" placeholder="Pincode" name="pincode"
-                [(ngModel)]="prescription.address.pincode">
+                [(ngModel)]="prescription.address.pincode"
+                [ngClass]="{'is-invalid':prescription.address.pincode==='' && isValid}">
             </div>
           </div>
           <div class="card-header p-2">
@@ -250,7 +363,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="newPrescription()">Create
+        <button type="button" class="btn btn-primary" (click)="newPrescription()">Create
           Prescription</button>
       </div>
     </div>

@@ -40,7 +40,7 @@
                 <a href="javascript:void(0)" class="ml-1 badge badge-secondary">{{notification.prescriptionName}}</a>
               </span>
               <span style="display: block;margin-top: 5px;margin-left: 10px;"><button type="button"
-                  class="btn btn-success ml-3 btn-sm" (click)="approveRequest(notification.id,i)">Approve</button>
+                  class="btn btn-success ml-3 btn-sm" (click)="approveRequest(notification,i)">Approve</button>
                 <button type="button" class="btn btn-danger ml-2 btn-sm"
                   (click)="removeNotification(notification.id,i)">Dismiss</button></span>
             </div>
@@ -60,12 +60,12 @@
         </a>
         <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
           <div class=" dropdown-header noti-title">
-            <h6 class="text-overflow m-0">Welcome!</h6>
+            <h6 class="text-overflow m-0">{{localData.type==='doctor'?'Welcome Doctor !':'Warm Greetings !'}}</h6>
           </div>
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+          <!-- <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
             <i class="ni ni-single-02"></i>
             <span>My profile</span>
-          </a>
+          </a> -->
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0)" class="dropdown-item" (click)="logout()">
             <i class="ni ni-user-run"></i>

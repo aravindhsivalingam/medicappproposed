@@ -61,6 +61,7 @@ export class DashboardComponent implements OnInit {
   public prescriptionList: any;
   public activePrescription: any;
   public searchText: string;
+  public isValid = false;
   public prescriptionInCart = [];
   ngOnInit() {
     $('.hide-div').attr('hidden', true);
@@ -112,6 +113,8 @@ export class DashboardComponent implements OnInit {
       mthis.emptyPrescriptions();
     });
     $('#newPrescriptionModal').on('hidden.bs.modal', function () {
+      $('#customFile').val('');
+      this.isValid = false;
       mthis.emptyPrescriptions();
     });
     $('#pdfViewerModal').on('hidden.bs.modal', function () {
@@ -193,18 +196,27 @@ export class DashboardComponent implements OnInit {
   }
 
   newPrescription() {
-    console.log(this.prescription);
-    this.service.createPrescription(this.prescription).subscribe((data) => {
-      console.log(data);
-      if (data['error'] === undefined) {
-        this.notyfService.success('New Prescription Created');
-        this.prescriptionList.push(Object.assign({}, data));
-        this.prescriptionList = Object.assign([], this.prescriptionList);
-        console.log(this.prescriptionList);
-      } else {
-        this.notyfService.error(data['error']);
-      }
-    });
+    this.isValid = true;
+    if ($('#customFile').val() === '') {
+      $('#customFile').addClass('is-invalid');
+    } else if (this.prescription.prescriptionName !== '' && this.prescription.patientName !== '' && this.prescription.age !== '' &&
+      this.prescription.address.street !== '' && this.prescription.address.pincode !== '' && this.prescription.report.fileName !== '') {
+      this.isValid = false;
+      console.log(this.prescription);
+      $('#customFile').removeClass('is-invalid');
+      $('#newPrescriptionModal').modal('hide');
+      this.service.createPrescription(this.prescription).subscribe((data) => {
+        console.log(data);
+        if (data['error'] === undefined) {
+          this.notyfService.success('New Prescription Created');
+          this.prescriptionList.push(Object.assign({}, data));
+          this.prescriptionList = Object.assign([], this.prescriptionList);
+          console.log(this.prescriptionList);
+        } else {
+          this.notyfService.error(data['error']);
+        }
+      });
+    }
   }
   toggleEditPrescriptionModal(data) {
     $('#editPrescriptionModal').modal('show');
@@ -212,13 +224,14 @@ export class DashboardComponent implements OnInit {
     this.prescription = Object.assign({}, data);
   }
   toggleAccessModal(prescription) {
-    if (this.localData && this.localData.type === 'doctor') {
+    if (this.localData && this.localData.type === 'doctor' && prescription.email !== this.localData.email) {
       $('#requestAccessModal').modal('show');
       this.activePrescription = prescription;
     }
   }
   requestAccess() {
     console.log(this.activePrescription);
+    this.activePrescription.loggedInUser = this.localData.email;
     this.service.requestAccess(this.activePrescription).subscribe(data => {
       console.log(data, 'Requested');
       data['type'] === 'error' ? this.notyfService.error(data['msg']) :
@@ -230,6 +243,7 @@ export class DashboardComponent implements OnInit {
     this.service.updatePrescription(this.prescription).subscribe(data => {
       const index = _.findIndex(this.prescriptionList, { id: data['id'] });
       this.prescriptionList.splice(index, 1, data);
+      this.prescriptionList = Object.assign([], this.prescriptionList);
     });
   }
   toggleDeleteModal(prescription) {
@@ -246,6 +260,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onFileChange(event) {
+    $('#customFile').removeClass('is-invalid');
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (fileEvent: any) => {
@@ -260,7 +275,6 @@ export class DashboardComponent implements OnInit {
       this.prescriptionInCart = Object.assign([], this.prescriptionInCart);
     }
     console.log(this.prescriptionInCart);
-    // this.helperService.prescriptionInCart(this.prescriptionInCart);
     this.helperService.setPrescription(this.prescriptionInCart);
   }
   getPresence(prescription) {

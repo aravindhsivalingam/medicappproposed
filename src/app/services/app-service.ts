@@ -82,8 +82,8 @@ export class AppService {
                 return response;
             }));
     }
-    changePrivateState(id) {
-        return this.http.put(`${this.urlService.getBaseUrl()}/changePrivateState?id=${id}`, this.getHeaders())
+    changePrivateState(payload) {
+        return this.http.put(`${this.urlService.getBaseUrl()}/changePrivateState`, payload, this.getHeaders())
             .pipe(map((response) => {
                 return response;
             }));
