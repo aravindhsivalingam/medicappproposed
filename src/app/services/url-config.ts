@@ -6,7 +6,7 @@ export class UrlService {
     constructor() { }
 
     urlList: any = {
-        baseUrl: 'https://medic-server.herokuapp.com/',
+        baseUrl: 'https://medic-server.herokuapp.com',
     };
     // urlList: any = {
     //     baseUrl: 'http://localhost:5678',
