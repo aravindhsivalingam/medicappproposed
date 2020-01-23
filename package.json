@@ -3,12 +3,13 @@
   "version": "1.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently \"ng serve\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "deploy-build": "ng build --prod --base-href='https://aravindhsivalingam.github.io/MedicApp/' "
   },
   "private": true,
   "dependencies": {
@@ -27,6 +28,7 @@
     "bootstrap": "4.1.3",
     "chart.js": "2.7.3",
     "clipboard": "2.0.4",
+    "concurrently": "^5.0.2",
     "core-js": "2.6.4",
     "jquery": "^3.4.1",
     "ng-notyf": "^0.4.0",
@@ -50,6 +52,7 @@
     "@types/node": "11.9.0",
     "codelyzer": "4.5.0",
     "electron": "^7.1.9",
+    "electron-packager": "^14.2.0",
     "jasmine-core": "3.3.0",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "4.0.0",
