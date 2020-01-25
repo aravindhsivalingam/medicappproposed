@@ -26,12 +26,6 @@
         </button>
         <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu
           style="padding: 5px;left: -461px;width: 500px">
-          <span *ngIf="notificationList && notificationList.length==0">
-            <div class="text-center alert alert-info alert-dismissible fade show" role="alert">
-              <span class="alert-inner--text" style="word-spacing:5px;"><strong>Hey !,</strong> You're done with your
-                notifications</span>
-            </div>
-          </span>
           <span *ngIf="notificationList.length>0">
             <div class="alert alert-primary alert-dismissible fade show" role="alert"
               *ngFor="let notification of notificationList;let i = index" style="cursor: default;">
@@ -44,6 +38,14 @@
                 <button type="button" class="btn btn-danger ml-2 btn-sm"
                   (click)="removeNotification(notification.id,i)">Dismiss</button></span>
             </div>
+          </span>
+          <span *ngIf="notificationList && notificationList.length==0">
+            <div class="text-center alert alert-info fade show" role="alert">
+              <span class="alert-inner--text" style="word-spacing:5px;"><strong>Hey !,</strong> You're done with your
+                notifications</span>
+            </div>
+            <span class="btn btn-primary btn-sm" style="float:right;" (click)="refreshNotifications($event)"><i
+                id="refreshIcon" class="fas fa-redo"></i></span>
           </span>
         </div>
       </li>

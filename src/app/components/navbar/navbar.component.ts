@@ -25,6 +25,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      $('#notificationButton').focus(() => { $('#bellBtn').css('color', '#000'); });
+      $('#notificationButton').focusout(() => { setTimeout(() => { $('#bellBtn').css('color', '#fff'); }, 200); });
+    }, 2000);
     this.localData = JSON.parse(localStorage.getItem('loggedInUser'));
     if (this.localData === null) {
       this.router.navigateByUrl('/login');
@@ -35,8 +39,6 @@ export class NavbarComponent implements OnInit {
       });
     }
     this.listTitles = ROUTES.filter(listTitle => listTitle);
-    $('#notificationButton').focus(() => { $('#bellBtn').css('color', '#000'); });
-    $('#notificationButton').focusout(() => { setTimeout(() => { $('#bellBtn').css('color', '#fff'); }, 200); });
   }
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
@@ -50,6 +52,15 @@ export class NavbarComponent implements OnInit {
       }
     }
     return 'Dashboard';
+  }
+  refreshNotifications(e) {
+    e.preventDefault();
+    $('refreshIcon').addClass('spin-icon');
+    this.service.getAllNotifications(this.localData.email).subscribe((data) => {
+      $('refreshIcon').removeClass('spin-icon');
+      console.log(data);
+      this.notificationList = data;
+    });
   }
 
   removeNotification(id, i) {

@@ -18,3 +18,18 @@
   font-size: 14px;
   color: #000;
 }
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.spin-icon {
+  -webkit-animation-name: rotation;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 2s;
+}
