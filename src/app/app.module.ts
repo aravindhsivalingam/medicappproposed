@@ -17,6 +17,7 @@ import { NotyfModule } from 'ng-notyf';
 import { AppService } from './services/app-service';
 import { UrlService } from './services/url-config';
 import { HelperService } from './services/helper-service';
+import { WindowService } from './pages/login/window.service';
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import { HelperService } from './services/helper-service';
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [AppService, UrlService, HelperService,
+  providers: [AppService, UrlService, HelperService, WindowService,
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     }],

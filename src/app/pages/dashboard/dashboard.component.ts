@@ -153,6 +153,7 @@ export class DashboardComponent implements OnInit {
   getAllPrescriptions() {
     this.service.getAllPrescriptions().subscribe(data => {
       this.prescriptionList = data;
+      localStorage.setItem('prescriptionLength', this.prescriptionList.length);
       $('.hide-div').attr('hidden', false);
       $('#spinner-img').attr('hidden', true);
     });
@@ -160,6 +161,7 @@ export class DashboardComponent implements OnInit {
   getAllPrescriptionsByEmailId() {
     this.service.getAllPrescriptionsByEmailId(this.localData.email).subscribe((data) => {
       this.prescriptionList = data;
+      localStorage.setItem('prescriptionLength', this.prescriptionList.length);
       console.log(this.prescriptionList);
       $('.hide-div').attr('hidden', false);
       $('#spinner-img').attr('hidden', true);

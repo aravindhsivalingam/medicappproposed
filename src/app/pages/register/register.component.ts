@@ -3,7 +3,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { AppService } from '../../services/app-service';
 import { NotyfService } from 'ng-notyf';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { countryList } from './country';
 
 @Component({
   selector: 'app-register',
@@ -19,10 +19,22 @@ export class RegisterComponent implements OnInit {
     emailId: '',
     password: '',
     imageUrl: '',
+    phoneNumber: '',
+    isTwoFactorEnabled: false,
     type: 'client'
   };
+  public countryCode = '+91';
   public passwordStrength = '';
+  public countryList = countryList;
   ngOnInit() {
+  }
+  checkNumber(event) {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      this.notyfService.error(`Enter Number Only`);
+      return false;
+    }
+    return true;
   }
   compressFile() {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
@@ -37,6 +49,7 @@ export class RegisterComponent implements OnInit {
 
   // Create Account with same Payload
   createUser() {
+    this.registerPayload.phoneNumber = this.countryCode + this.registerPayload.phoneNumber;
     console.log('SignUp : ', this.registerPayload);
     if (this.registerPayload.name !== '' && this.registerPayload.emailId !== '' && this.registerPayload.password !== ''
       && this.registerPayload.imageUrl !== '') {
