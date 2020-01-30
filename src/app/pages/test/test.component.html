@@ -1,0 +1,85 @@
+<div class="header bg-gradient-danger py-7 py-lg-8">
+</div>
+<div id="recaptcha-container"></div>
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="card bg-secondary p-3 mb-2" style="display: inline-block;width: 100%;">
+        <h2 style="display: inline-block !important;">{{currentStage}}</h2>
+        <button class="btn btn-primary btn-sm mt-1" style="float: right;" *ngIf="currentStage==='Results'"
+          (click)="resetFlow()">Reset</button>
+      </div>
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-body px-lg-5 py-lg-5 my-card" [ngClass]="{'custom-width':currentStage==='Results'}">
+          <div class="text-center text-muted mb-4" *ngIf="currentStage!=='Results'">
+            <small>Sign in with {{currentStage==='Step 2'?"OTP":"credentials"}}</small>
+          </div>
+          <form role="form" id="emailForm" class="collapse show">
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                </div>
+                <input class="form-control" placeholder="Email" type="email" name="email"
+                  [(ngModel)]="loginPayload.emailId" (keydown.enter)="validateUser()">
+              </div>
+            </div>
+            <div class="text-center" style="float:right;">
+              <button type="button" class="btn btn-primary my-4" (click)="validateUser()"
+                [disabled]="loginPayload.emailId===''">Go
+                <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+              </button>
+            </div>
+          </form>
+          <form id="passwordForm" class="collapse">
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input class="form-control" placeholder="Password" type="password" name="password"
+                  [(ngModel)]="loginPayload.password">
+              </div>
+            </div>
+            <div class="form-group" *ngIf="!isTwoFactorEnabled">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-image"></i></span>
+                </div>
+                <label class="form-control" (click)="compressFile()" style="cursor: pointer;">
+                  <i class="fa fa-cloud-upload"></i> {{loginPayload.imageUrl!=''?"Added Image ✔️":"Upload an image"}}
+                </label>
+              </div>
+            </div>
+            <!-- <div id="recaptcha-container"></div> -->
+            <div class="form-group" *ngIf="isTwoFactorEnabled">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-chat-round"></i></span>
+                </div>
+                <input class="form-control" placeholder="OTP" type="password" (keypress)="checkNumber($event)"
+                  name="otp" [(ngModel)]="otp">
+                <button class="btn btn-primary refresh-icon" (click)="sendOTP()"><i
+                    class="fas fa-redo-alt"></i></button>
+              </div>
+            </div>
+            <div class="text-center" style="float:left;">
+              <button type="button" class="btn btn-primary my-4" (click)="goBack()"><i
+                  class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="text-center" style="float:right;">
+              <button type="button" class="btn btn-primary my-4" (click)="isTwoFactorEnabled?verifyOTP():login()"
+                [disabled]="loginPayload.password==='' && otp==='' || loginPayload.password==='' && loginPayload.imageUrl===''">Sign
+                in</button>
+            </div>
+          </form>
+          <form id="resultBlock" class="collapse mb-4">
+            <canvas baseChart [datasets]="barChartData" [labels]="mbarChartLabels" [options]="barChartOptions"
+              [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

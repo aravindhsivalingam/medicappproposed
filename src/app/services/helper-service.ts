@@ -9,6 +9,8 @@ export class HelperService {
 
     public prescriptionList = new BehaviorSubject([]);
     public prescriptions = this.prescriptionList.asObservable();
+    public apiResponseTime = new BehaviorSubject(' ');
+    public chartTime = this.apiResponseTime.asObservable();
 
     constructor(private http: HttpClient, private urlService: UrlService) { }
 

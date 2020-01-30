@@ -1,0 +1,19 @@
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.refresh-icon {
+  padding: 8px;
+  margin: 6px;
+}
+.my-card {
+  padding: 30px 40px 0px 40px !important;
+}
+.custom-width {
+  width: 450px !important;
+}
