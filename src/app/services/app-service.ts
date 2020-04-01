@@ -4,11 +4,12 @@ import { UrlService } from './url-config';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { environment } from 'src/environments/environment';
+import { EncrpDecrpService } from './encryptService';
 
 @Injectable()
 export class AppService {
 
-    constructor(private http: HttpClient, private urlService: UrlService) { }
+    constructor(private http: HttpClient, private urlService: UrlService, private encryptService: EncrpDecrpService) { }
 
     getHeaders() {
         const customHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -21,9 +22,10 @@ export class AppService {
         }));
     }
     validateUser(email: any) {
-        return this.http.post(`${this.urlService.getBaseUrl()}/validateUser?emailId=${email}`, this.getHeaders()).pipe(map((response) => {
-            return response;
-        }));
+        return this.http.post(`${this.urlService.getBaseUrl()}/validateUser`, { emailId: email }, this.getHeaders())
+            .pipe(map((response) => {
+                return response;
+            }));
     }
     loginUser(payload: any) {
         return this.http.post(`${this.urlService.getBaseUrl()}/login`, payload, this.getHeaders()).pipe(map((response) => {
@@ -47,19 +49,28 @@ export class AppService {
     }
 
     getAllPrescriptions() {
-        return this.http.get(`${this.urlService.getBaseUrl()}/getAllPrescriptions`, this.getHeaders()).pipe(map((response) => {
+        return this.http.post(`${this.urlService.getBaseUrl()}/getAllPrescriptions`, this.getHeaders()).pipe(map((response) => {
             return response;
         }));
     }
 
     getAllPrescriptionsByEmailId(emailId) {
-        return this.http.get(`${this.urlService.getBaseUrl()}/getPrescriptionByEmail?emailId=${emailId}`, this.getHeaders())
+        const email = this.encryptService.encrypt(emailId);
+        return this.http.post(`${this.urlService.getBaseUrl()}/getPrescriptionByEmail`, { emailId: email }, this.getHeaders())
+            .pipe(map((response) => {
+                return response;
+            }));
+    }
+    getAllNotifications(emailId) {
+        const email = this.encryptService.encrypt(emailId);
+        return this.http.post(`${this.urlService.getBaseUrl()}/getNotificationsByEmail`, { emailId: email }, this.getHeaders())
             .pipe(map((response) => {
                 return response;
             }));
     }
     getUserInfo(emailId) {
-        return this.http.get(`${this.urlService.getBaseUrl()}/getUserData?emailId=${emailId}`, this.getHeaders())
+        const email = this.encryptService.encrypt(emailId);
+        return this.http.post(`${this.urlService.getBaseUrl()}/getUserData`, { emailId: email }, this.getHeaders())
             .pipe(map((response) => {
                 return response;
             }));
@@ -76,12 +87,6 @@ export class AppService {
     }
     updatePrescription(payload: any) {
         return this.http.put(`${this.urlService.getBaseUrl()}/editPrescription`, payload, this.getHeaders())
-            .pipe(map((response) => {
-                return response;
-            }));
-    }
-    getAllNotifications(emailId) {
-        return this.http.get(`${this.urlService.getBaseUrl()}/getNotificationsByEmail?emailId=${emailId}`, this.getHeaders())
             .pipe(map((response) => {
                 return response;
             }));

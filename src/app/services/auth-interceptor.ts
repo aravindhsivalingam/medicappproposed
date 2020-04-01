@@ -12,7 +12,11 @@ export class AuthInterceptor implements HttpInterceptor {
   public diffTime: any;
   public chartTime = (param) => { };
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('req url ', req.url);
+    req = req.clone({
+      body: { ...req.body, hello: 'world' },
+      // url: `${req.url}`
+    });
+    console.log('Req', req);
     const start = performance.now();
     return next.handle(req).pipe(
       tap(
@@ -24,7 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
 
   handleResponse(req: HttpRequest<any>, event, start) {
-    console.log('Handling response for ', req.url, event);
+    // console.log('Handling response for ', req.url, event);
     if (req.url.includes('login') && event.status === 200) {
       this.diffTime = (performance.now() - start);
       this.helperService.apiResponseTime.next(this.diffTime.toFixed(4));

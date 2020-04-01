@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { environment } from 'src/environments/environment';
+import { HelperService } from '../../services/helper-service';
 import { WindowService } from './window.service';
 import * as firebase from 'firebase';
 
@@ -19,7 +20,7 @@ declare var grecaptcha: any;
 })
 export class LoginComponent implements OnInit, OnDestroy {
   constructor(private imageCompress: NgxImageCompressService, private service: AppService, private notyfService: NotyfService,
-    private router: Router, private winService: WindowService) { }
+    private router: Router, private winService: WindowService, private helperService: HelperService) { }
   public loginPayload = {
     emailId: '',
     password: '',
@@ -127,6 +128,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (data && data['email']) {
           console.log('login Success');
           localStorage.setItem('loggedInUser', JSON.stringify(data));
+          this.helperService.setDataInBrowser('loggedInUser', data);
           setTimeout(() => {
             this.router.navigateByUrl('./dashboard');
           }, 1000);
