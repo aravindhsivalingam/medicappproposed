@@ -34,22 +34,21 @@
     "concurrently": "^5.0.2",
     "core-js": "2.6.4",
     "crypto-js": "^3.1.9-1",
-    "firebase": "^6.4.0",
+    "firebase": "^8.1.1",
     "jquery": "^3.4.1",
     "ng-notyf": "^0.4.0",
-    "ng2-charts": "^2.2.3",
+    "ng2-charts": "^2.0.0",
     "ngx-clipboard": "11.1.9",
     "ngx-extended-pdf-viewer": "^1.5.2",
     "ngx-image-compress": "^8.0.3",
     "ngx-toastr": "9.1.2",
     "node-cryptojs-aes": "^0.4.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "nouislider": "13.1.1",
     "npm": "^6.13.6",
     "popper.js": "^1.14.3",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.5.3",
-    "simple-crypto-js": "^2.2.0",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
@@ -73,6 +72,6 @@
     "protractor": "5.4.2",
     "ts-node": "8.0.2",
     "tslint": "5.12.1",
-    "typescript": "^3.2.2"
+    "typescript": "3.1.6"
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { environment } from 'src/environments/environment';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 
 import { AppService } from '../../services/app-service';
 import { HelperService } from '../../services/helper-service';

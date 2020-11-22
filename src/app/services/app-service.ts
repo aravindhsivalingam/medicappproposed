@@ -2,7 +2,7 @@ import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UrlService } from './url-config';
 import { map } from 'rxjs/operators';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { EncrpDecrpService } from './encryptService';
 

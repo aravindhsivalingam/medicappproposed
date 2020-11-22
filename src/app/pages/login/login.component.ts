@@ -4,8 +4,11 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { environment } from 'src/environments/environment';
 import { HelperService } from '../../services/helper-service';
 import { WindowService } from './window.service';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 
+// Add the Firebase services that you want to use
+import 'firebase/auth';
+import 'firebase/firestore';
 
 import { AppService } from '../../services/app-service';
 import { NotyfService } from 'ng-notyf';
